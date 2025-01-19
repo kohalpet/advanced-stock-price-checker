@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "symbols" ALTER COLUMN "type" SET DATA TYPE VARCHAR(255);

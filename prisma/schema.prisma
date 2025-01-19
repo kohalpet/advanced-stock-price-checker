@@ -1,0 +1,30 @@
+generator client {
+  provider      = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Symbol {
+  id          Int    @id @default(autoincrement())
+  symbol      String @unique @db.VarChar(10)
+  type        String @db.VarChar(255)
+  description String @db.Text
+
+  quotes Quote[]
+
+  @@map("symbols")
+}
+
+model Quote {
+  id       Int      @id @default(autoincrement())
+  symbolId Int      @map("symbol_id")
+  dateTime DateTime @map("date_time") @db.Timestamp
+  price    Float
+
+  symbol Symbol @relation(fields: [symbolId], references: [id])
+
+  @@map("quotes")
+}
