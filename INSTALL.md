@@ -1,76 +1,122 @@
 # Deployment
 
-## Requirements
+## Production
 
-Node.js 20.0.0 or higher
-PostgreSQL 13.0 or higher
+### Requirements
 
-## Installation
+Docker 25.0.0 or higher
+
+### Installation and running
 
 1. Clone the repository
 
-## Project setup
-
 ```bash
-# install dependencies
-$ npm install
-
-# generate prisma client
-$ npx prisma generate
+$ git clone git@github.com:kohalpet/advanced-stock-price-checker.git
 ```
 
-## Database setup
+2. Change the directory
 
-1. Create a `.env` file based on the `.env.example` file
+```bash
+$ cd advanced-stock-price-checker
+```
+
+3. Create a `.env` file based on the `.env.example` file
 
 ```bash
 $ cp .env.example .env
 ```
 
-2. Set the environment variables in the `.env` file
+4. Set the environment variables in the `.env` file
 
-3. Create a role with 'CREATEDB' privileges
+5. Build the Docker image
 
 ```bash
-
-$ psql -U postgres
-postgres=# CREATE ROLE <role_name> WITH LOGIN PASSWORD '<password>';
-postgres=# ALTER ROLE <role_name> CREATEDB;
-postgres=# \q
+$ docker compose build
 ```
 
-4. Run migrations
+6. Run the Docker container
 
 ```bash
-# create a new migration (development)
+$ docker compose up
+```
+
+You can now access the Swagger at `http://localhost:3000/api`.
+
+## Development
+
+For development, you can use external PostgreSQL database or the dockerized one.
+If you want to use the dockerized one, just make sure that the environment variable `DATABASE_URL` is set to
+the right value in the `.env` file.
+
+### Requirements
+
+Node.js 20.0.0 or higher
+PostgreSQL 13.0 or higher
+
+### Installation and running
+
+1. Clone the repository
+
+```bash
+$ git clone git@github.com:kohalpet/advanced-stock-price-checker.git
+```
+
+2. Change the directory
+
+```bash
+$ cd advanced-stock-price-checker
+```
+
+3. Create a `.env` file based on the `.env.example` file
+
+```bash
+$ cp .env.example .env
+```
+
+4. Set the environment variables in the `.env` file
+
+5. Install the dependencies
+
+```bash
+$ npm install
+```
+
+6. Generate the Prisma client
+
+```bash
+$ npx prisma generate
+```
+
+7. Run db migrations
+
+```bash
 $ npx prisma migrate dev
-
-# create a new migration (production)
-$ npx prisma migrate deploy
 ```
 
-## Test the project
+8. Start the development server
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
 $ npm run start:dev
+```
 
-# production mode
-$ npm run start:prod
+You can now access the Swagger at `http://localhost:3000/api`.
+
+### Testing
+
+To run the unit tests, run the following command:
+
+```bash
+$ npm run test
+```
+
+To run the end-to-end tests, run the following command:
+
+```bash
+$ npm run test:e2e
+```
+
+To run the test coverage, run the following command:
+
+```bash
+$ npm run test:cov
 ```
